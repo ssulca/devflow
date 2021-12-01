@@ -1,6 +1,6 @@
 # Airflow Dag Authoring
 ## Table of Contents
-1. [The basis](#the basis)
+1. [The basis](#the-basis)
 2. [Master your Variables](#master-your-variables)
 3. [The power of the TaskFlow API](#the-power-of-the-taskflow-api)
 4. [Grouping your tasks](#grouping-your-tasks) 
@@ -456,7 +456,7 @@ def subdag_factory(parent_dag_id, subdag_dag_id, default_args):
 > NOTE: airflow is not able to map xcom from parten Dag tasks to children dag tasks using TaskFlow
 > API
 
-![image](./static/05_subdag.png)
+![image](./static/07_subdag.png)
 
 ### TaskGroups: The Best Way of Grouping your Tasks
 The tasks are showed together by UI
