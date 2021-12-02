@@ -4,6 +4,8 @@
 2. [Master your Variables](#master-your-variables)
 3. [The power of the TaskFlow API](#the-power-of-the-taskflow-api)
 4. [Grouping your tasks](#grouping-your-tasks) 
+5. [Advanced Concepts](./02_airflow_dag_authoring_advanced.md)
+6. [DAG dependencies](./02_airflow_dag_authoring_advanced.md)
 
 ## The basis
 ### Define your Dags
