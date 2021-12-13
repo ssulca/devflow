@@ -156,7 +156,7 @@ This avoid create a new conexion every time that the dag is parsed.
 
 ```python
 extract = PythonOperator(
-    task_id="ectract",
+    task_id="extract",
     python_callable=_extract
     op_args=["{{ var.json.my_dag_partner.name }}"]
 )
