@@ -10,20 +10,19 @@
 ## The basis
 ### Define your Dags
 
-* DAG_DISCOVERY_SAFE_MODE
-The Schedule tries to parse any file inf `dags/` folder if this contains `dag` or `airflow` words.
-> If you generate your dags dynamically these twos words are necessary.
-
-* airflowignore 
-Is a file similar to `gitignore`, and define files that the airflow scheduler ignores in dags
-folder.
-
+* `DAG_DISCOVERY_SAFE_MODE`
+  * The Schedule tries to parse any file inf `dags/` folder if this contains `dag` or `airflow`
+  words. 
+  > If you generate your dags dynamically these twos words are necessary.
+* `.airflowignore` 
+  * Is a file similar to `gitignore`, and define files that the airflow scheduler ignores in dags
+  folder.
 * Dag Id The Id have to be unique, 
-* Each task/operator can have start_date
-* schedule_interval: define execution frequency
-* dagrun_timeout: doesn't have default value and its have to greater than execution time.
-* tags: allow filter dags by tags.
-* catchup: allow triggers dags automatically 
+* Each task/operator can have `start_date`
+* `schedule_interval`: define execution frequency
+* `dagrun_timeout`: doesn't have default value and its have to greater than execution time.
+* `tags`: allow filter dags by tags.
+* `catchup`: allow triggers dags automatically 
 
 ```python
 from airflow import DAG
@@ -46,7 +45,7 @@ with DAG(
 * `start_date`: defines the date at which a dag starts being schedule
   * datatype: `datetime` object
 * `schedule_interval`: defines the frequency  at which your dag is trigger
-  * datatype: cron expresion (`string**) or `timedelta** object.
+  * datatype: cron expresion (`string`) or `timedelta` object.
 
 
 ![image](./static/01_scheduling.png)

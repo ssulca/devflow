@@ -84,7 +84,7 @@ with DAG(...) as dag:
         python_callable=_choosing_partner_based_on_day
     )
     
-    stop = DummyOperator(task_id="start")
+    stop = DummyOperator(task_id="stop")
     choosing_partner_based_on_day >> stop
     
     for partener, details in partners.items():
@@ -170,7 +170,11 @@ Rules:
 
   ![image](./static/14_depend.png)
       
-  If do both `cross_downstream` and `chain`
+* If do both `cross_downstream` and `chain`
+  ```python
+  cross_downstream([t2, t3], [t4, t5])
+  chain(t1, t2, t5, t6)
+  ```
   
   ![image](./static/15_depend.png)
   
@@ -278,8 +282,9 @@ directly in downstream.
 ### All you need to know about Sensors
 * Sensor: Operator that is waiting for a condition to be true before execute the next task
 
-If you set `mode="poke"` and the condition never is true so the task will wait forever the resource used by this task 
- will be taken forever. `reschedule` schedule the sensor for `poke_interval`
+If you set `mode="poke"` and the condition never is true so the task will wait forever, so the
+ resources used by this task will be taken forever. It's better use `reschedule` that schedules the
+ sensor for `poke_interval`
 
 ```python
 from airflow.sensor.date_time import DateTimeSensor
@@ -317,6 +322,17 @@ with DAG(..., on_success_callback=_success_callback, on_failure_callback=_failur
 ```
 * At Task Level: Are the same args but for a task definition(Operator)
 * You are able to get the type of exception or the number of retries
+  ```python
+  def _success_callback(context):
+      if (context["exception"]):
+        if isinstance(context["exception"], AirflowTaskTimeout):
+            ...
+        if isinstance(context["exception"], AirflowSensorTimeout):
+            ...
+  def _extract_callback_retry(context):
+      if context["ti"].try_number > 2:
+        ...
+  ```
 
 ### The different (and smart) ways of retrying your tasks
 * Explicit definition of `retries` on a Task definition overwrite the definition in default_args at DAG level.
@@ -468,14 +484,14 @@ with Dag(...) as dag:
     # mode is no aviable for this operator cause is not a Sensor
     trigger_cleaning_xcoms = TriggerDagRunOperator(
         task_id="trigger_cleaning_xcoms",
-        trigger_dag_id="cleaning_dag",  # dag ida
+        trigger_dag_id="cleaning_dag",  # dag id
         execution_date="{{ ds }}",  # string o datetime, date that will be used by dawnstream dag
         wait_for_completion=True,  # defines if you want to wait for the trigger dag "completion"
         poke_interval=60,  # 60 sec by default, keeping mind the dag execution time
-        # allow to re-reun the downstream dag, On the contrary dag downstream raise a exception
+        # reset_dag_run: allows to re-reun the downstream dag, On the contrary dag downstream raise a exception
         # beacuse your are triying to execute twise a dag using the same date
         reset_dag_run=True,  # necessary for backfill
-        failed_states=["failed"] # empty by default. 
+        failed_states=["failed"] # empty by default. (Same as external sensor) 
     )
 
 ```
