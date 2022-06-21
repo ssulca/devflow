@@ -255,7 +255,7 @@ SELECT partner_name FROM partners WHERE date={{ ds }};
 from airflow.providers.prostgres.operators.porstgres import PostgresOperator
 
 class CustomPostgresOperator(PostgresOperator):
-    template_fileds = ("sql", "paramters", "partner_name")
+    template_fields = ("sql", "paramters", "partner_name")
 
 with Dag(...) as dag:
     fetch = CustomPostgresOperator(
