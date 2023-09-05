@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "course-dvc"
+version = "0.1.0"
+description = ""
+authors = ["ssulca <ser.0090@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dvc = "^3.17.0"
+pandas = "^2.1.0"
+scikit-learn = "^1.3.0"
+matplotlib = "^3.7.2"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^4.0.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
